@@ -1,0 +1,25 @@
+{
+  "name": "ink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.mjs",
+    "start": "pnpm run build && node build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "execa": "^9.5.3",
+    "ink": "^5.2.1",
+    "react": "^18.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.4",
+    "esbuild": "^0.25.4",
+    "react-devtools-core": "^6.1.2"
+  }
+}
