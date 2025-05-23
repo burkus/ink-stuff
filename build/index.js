@@ -1380,7 +1380,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState3(initialState) {
+        function useState2(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -2183,7 +2183,7 @@ var require_react_development = __commonJS({
         exports.useMemo = useMemo3;
         exports.useReducer = useReducer;
         exports.useRef = useRef;
-        exports.useState = useState3;
+        exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
         exports.version = ReactVersion;
@@ -27084,7 +27084,7 @@ var require_backend = __commonJS({
                     });
                     return initialValue;
                   },
-                  useState: function useState3(initialState) {
+                  useState: function useState2(initialState) {
                     var hook = nextHook();
                     initialState = null !== hook ? hook.memoizedState : "function" === typeof initialState ? initialState() : initialState;
                     hookLog.push({
@@ -29482,12 +29482,12 @@ var require_backend = __commonJS({
               var res = compareVersions(v1, v2);
               return operatorResMap[operator].includes(res);
             };
-            var satisfies = function satisfies2(version, range) {
-              var m = range.match(/^([<>=~^]+)/);
+            var satisfies = function satisfies2(version, range2) {
+              var m = range2.match(/^([<>=~^]+)/);
               var op = m ? m[1] : "=";
-              if (op !== "^" && op !== "~") return compare(version, range, op);
+              if (op !== "^" && op !== "~") return compare(version, range2, op);
               var _validateAndParse = validateAndParse(version), _validateAndParse2 = _slicedToArray(_validateAndParse, 5), v1 = _validateAndParse2[0], v2 = _validateAndParse2[1], v3 = _validateAndParse2[2], vp = _validateAndParse2[4];
-              var _validateAndParse3 = validateAndParse(range), _validateAndParse4 = _slicedToArray(_validateAndParse3, 5), r1 = _validateAndParse4[0], r2 = _validateAndParse4[1], r3 = _validateAndParse4[2], rp = _validateAndParse4[4];
+              var _validateAndParse3 = validateAndParse(range2), _validateAndParse4 = _slicedToArray(_validateAndParse3, 5), r1 = _validateAndParse4[0], r2 = _validateAndParse4[1], r3 = _validateAndParse4[2], rp = _validateAndParse4[4];
               var v = [v1, v2, v3];
               var r = [r1, r2 !== null && r2 !== void 0 ? r2 : "x", r3 !== null && r3 !== void 0 ? r3 : "x"];
               if (rp) {
@@ -34361,8 +34361,8 @@ var require_backend = __commonJS({
                 var ranges = getInternalModuleRanges();
                 if (ranges) {
                   for (var i = 0; i < ranges.length; i++) {
-                    var range = ranges[i];
-                    if (shared_isArray(range) && range.length === 2) {
+                    var range2 = ranges[i];
+                    if (shared_isArray(range2) && range2.length === 2) {
                       var _ranges$i = profilingHooks_slicedToArray(ranges[i], 2), startStackFrame = _ranges$i[0], stopStackFrame = _ranges$i[1];
                       markAndClear("--react-internal-module-start-".concat(startStackFrame));
                       markAndClear("--react-internal-module-stop-".concat(stopStackFrame));
@@ -34841,8 +34841,8 @@ var require_backend = __commonJS({
                       var ranges = getInternalModuleRanges();
                       if (ranges) {
                         for (var i = 0; i < ranges.length; i++) {
-                          var range = ranges[i];
-                          if (shared_isArray(range) && range.length === 2) {
+                          var range2 = ranges[i];
+                          if (shared_isArray(range2) && range2.length === 2) {
                             var _ranges$i2 = profilingHooks_slicedToArray(ranges[i], 2), startStackFrame = _ranges$i2[0], stopStackFrame = _ranges$i2[1];
                             markAndClear("--react-internal-module-start-".concat(startStackFrame));
                             markAndClear("--react-internal-module-stop-".concat(stopStackFrame));
@@ -41273,7 +41273,7 @@ var require_stack_utils = __commonJS({
 init_require_shim();
 var import_react23 = __toESM(require_react(), 1);
 
-// src/components/Confirmation.tsx
+// src/components/LoadingBar.tsx
 init_require_shim();
 var import_react22 = __toESM(require_react(), 1);
 
@@ -46665,9 +46665,6 @@ var import_react16 = __toESM(require_react(), 1);
 
 // node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/parse-keypress.js
 init_require_shim();
-import { Buffer as Buffer2 } from "node:buffer";
-var metaKeyCodeRe = /^(?:\x1b)([a-zA-Z0-9])$/;
-var fnKeyRe = /^(?:\x1b+)(O|N|\[|\[\[)(?:(\d+)(?:;(\d+))?([~^$])|(?:1;)?(\d+)?([a-zA-Z]))/;
 var keyName = {
   /* xterm/gnome ESC O letter */
   OP: "f1",
@@ -46750,185 +46747,14 @@ var keyName = {
   "[Z": "tab"
 };
 var nonAlphanumericKeys = [...Object.values(keyName), "backspace"];
-var isShiftKey = (code) => {
-  return [
-    "[a",
-    "[b",
-    "[c",
-    "[d",
-    "[e",
-    "[2$",
-    "[3$",
-    "[5$",
-    "[6$",
-    "[7$",
-    "[8$",
-    "[Z"
-  ].includes(code);
-};
-var isCtrlKey = (code) => {
-  return [
-    "Oa",
-    "Ob",
-    "Oc",
-    "Od",
-    "Oe",
-    "[2^",
-    "[3^",
-    "[5^",
-    "[6^",
-    "[7^",
-    "[8^"
-  ].includes(code);
-};
-var parseKeypress = (s = "") => {
-  let parts;
-  if (Buffer2.isBuffer(s)) {
-    if (s[0] > 127 && s[1] === void 0) {
-      s[0] -= 128;
-      s = "\x1B" + String(s);
-    } else {
-      s = String(s);
-    }
-  } else if (s !== void 0 && typeof s !== "string") {
-    s = String(s);
-  } else if (!s) {
-    s = "";
-  }
-  const key = {
-    name: "",
-    ctrl: false,
-    meta: false,
-    shift: false,
-    option: false,
-    sequence: s,
-    raw: s
-  };
-  key.sequence = key.sequence || s || key.name;
-  if (s === "\r") {
-    key.raw = void 0;
-    key.name = "return";
-  } else if (s === "\n") {
-    key.name = "enter";
-  } else if (s === "	") {
-    key.name = "tab";
-  } else if (s === "\b" || s === "\x1B\b") {
-    key.name = "backspace";
-    key.meta = s.charAt(0) === "\x1B";
-  } else if (s === "\x7F" || s === "\x1B\x7F") {
-    key.name = "delete";
-    key.meta = s.charAt(0) === "\x1B";
-  } else if (s === "\x1B" || s === "\x1B\x1B") {
-    key.name = "escape";
-    key.meta = s.length === 2;
-  } else if (s === " " || s === "\x1B ") {
-    key.name = "space";
-    key.meta = s.length === 2;
-  } else if (s.length === 1 && s <= "") {
-    key.name = String.fromCharCode(s.charCodeAt(0) + "a".charCodeAt(0) - 1);
-    key.ctrl = true;
-  } else if (s.length === 1 && s >= "0" && s <= "9") {
-    key.name = "number";
-  } else if (s.length === 1 && s >= "a" && s <= "z") {
-    key.name = s;
-  } else if (s.length === 1 && s >= "A" && s <= "Z") {
-    key.name = s.toLowerCase();
-    key.shift = true;
-  } else if (parts = metaKeyCodeRe.exec(s)) {
-    key.meta = true;
-    key.shift = /^[A-Z]$/.test(parts[1]);
-  } else if (parts = fnKeyRe.exec(s)) {
-    const segs = [...s];
-    if (segs[0] === "\x1B" && segs[1] === "\x1B") {
-      key.option = true;
-    }
-    const code = [parts[1], parts[2], parts[4], parts[6]].filter(Boolean).join("");
-    const modifier = (parts[3] || parts[5] || 1) - 1;
-    key.ctrl = !!(modifier & 4);
-    key.meta = !!(modifier & 10);
-    key.shift = !!(modifier & 1);
-    key.code = code;
-    key.name = keyName[code];
-    key.shift = isShiftKey(code) || key.shift;
-    key.ctrl = isCtrlKey(code) || key.ctrl;
-  }
-  return key;
-};
-var parse_keypress_default = parseKeypress;
 
 // node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/hooks/use-stdin.js
 init_require_shim();
 var import_react15 = __toESM(require_react(), 1);
-var useStdin = () => (0, import_react15.useContext)(StdinContext_default);
-var use_stdin_default = useStdin;
-
-// node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/hooks/use-input.js
-var useInput = (inputHandler, options = {}) => {
-  const { stdin, setRawMode, internal_exitOnCtrlC, internal_eventEmitter } = use_stdin_default();
-  (0, import_react16.useEffect)(() => {
-    if (options.isActive === false) {
-      return;
-    }
-    setRawMode(true);
-    return () => {
-      setRawMode(false);
-    };
-  }, [options.isActive, setRawMode]);
-  (0, import_react16.useEffect)(() => {
-    if (options.isActive === false) {
-      return;
-    }
-    const handleData = (data) => {
-      const keypress = parse_keypress_default(data);
-      const key = {
-        upArrow: keypress.name === "up",
-        downArrow: keypress.name === "down",
-        leftArrow: keypress.name === "left",
-        rightArrow: keypress.name === "right",
-        pageDown: keypress.name === "pagedown",
-        pageUp: keypress.name === "pageup",
-        return: keypress.name === "return",
-        escape: keypress.name === "escape",
-        ctrl: keypress.ctrl,
-        shift: keypress.shift,
-        tab: keypress.name === "tab",
-        backspace: keypress.name === "backspace",
-        delete: keypress.name === "delete",
-        // `parseKeypress` parses \u001B\u001B[A (meta + up arrow) as meta = false
-        // but with option = true, so we need to take this into account here
-        // to avoid breaking changes in Ink.
-        // TODO(vadimdemedes): consider removing this in the next major version.
-        meta: keypress.meta || keypress.name === "escape" || keypress.option
-      };
-      let input = keypress.ctrl ? keypress.name : keypress.sequence;
-      if (nonAlphanumericKeys.includes(keypress.name)) {
-        input = "";
-      }
-      if (input.startsWith("\x1B")) {
-        input = input.slice(1);
-      }
-      if (input.length === 1 && typeof input[0] === "string" && /[A-Z]/.test(input[0])) {
-        key.shift = true;
-      }
-      if (!(input === "c" && key.ctrl) || !internal_exitOnCtrlC) {
-        reconciler_default.batchedUpdates(() => {
-          inputHandler(input, key);
-        });
-      }
-    };
-    internal_eventEmitter?.on("input", handleData);
-    return () => {
-      internal_eventEmitter?.removeListener("input", handleData);
-    };
-  }, [options.isActive, stdin, internal_exitOnCtrlC, inputHandler]);
-};
-var use_input_default = useInput;
 
 // node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/hooks/use-app.js
 init_require_shim();
 var import_react17 = __toESM(require_react(), 1);
-var useApp = () => (0, import_react17.useContext)(AppContext_default);
-var use_app_default = useApp;
 
 // node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/hooks/use-stdout.js
 init_require_shim();
@@ -46949,29 +46775,32 @@ var import_react21 = __toESM(require_react(), 1);
 // node_modules/.pnpm/ink@5.2.1_@types+react@19.1.4_react-devtools-core@6.1.2_react@18.3.1/node_modules/ink/build/measure-element.js
 init_require_shim();
 
-// src/components/Confirmation.tsx
-var Confirmation = ({ message, action }) => {
-  const app = use_app_default();
-  const [selected, setSelected] = (0, import_react22.useState)(0);
-  use_input_default((_, key) => {
-    if (key.upArrow) {
-      setSelected((prev) => (prev + 1) % 2);
-    } else if (key.downArrow) {
-      setSelected((prev) => (prev + 1) % 2);
-    } else if (key.return) {
-      if (selected == 0) {
-        action?.();
-      } else {
-        app.exit();
-      }
-    }
-  });
-  return /* @__PURE__ */ import_react22.default.createElement(Box_default, null, /* @__PURE__ */ import_react22.default.createElement(Text, null, message), /* @__PURE__ */ import_react22.default.createElement(Box_default, { flexDirection: "column" }, /* @__PURE__ */ import_react22.default.createElement(Box_default, { flexDirection: "row", gap: 1 }, selected == 0 ? /* @__PURE__ */ import_react22.default.createElement(Text, null, ">") : null, /* @__PURE__ */ import_react22.default.createElement(Text, { color: selected == 0 ? "green" : "" }, "proceed")), /* @__PURE__ */ import_react22.default.createElement(Box_default, { flexDirection: "row", gap: 1 }, selected == 1 ? /* @__PURE__ */ import_react22.default.createElement(Text, null, ">") : null, /* @__PURE__ */ import_react22.default.createElement(Text, { color: selected == 1 ? "red" : "" }, "cancel"))));
+// src/lib/index.ts
+init_require_shim();
+var range = (start, end) => Array.from({ length: end - start + 1 }, (_, i) => i);
+
+// src/components/LoadingBar.tsx
+var uniCheck = "\u2714";
+var LoadingBar = ({ numerator, denominator, color = "green", maxLength = 10 }) => {
+  const safeDenominator = Math.max(denominator, 1);
+  const computedPercent = Math.round(numerator / safeDenominator * maxLength);
+  const percent = Math.min(computedPercent, maxLength);
+  return /* @__PURE__ */ import_react22.default.createElement(Text, null, "[", /* @__PURE__ */ import_react22.default.createElement(Text, { color }, range(0, percent).map((i) => /* @__PURE__ */ import_react22.default.createElement(Text, { key: i }, "=")), range(0, maxLength - percent - 1).map((i) => /* @__PURE__ */ import_react22.default.createElement(Text, { key: i }, " "))), "]", percent === maxLength ? `	${uniCheck}` : null);
 };
-var Confirmation_default = Confirmation;
+var LoadingBar_default = LoadingBar;
 
 // src/index.tsx
-render_default(/* @__PURE__ */ import_react23.default.createElement(Confirmation_default, null));
+var CounterThing = () => {
+  const [count, setCount] = import_react23.default.useState(0);
+  import_react23.default.useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((c) => c + 1);
+    }, 10);
+    return () => clearInterval(interval);
+  }, [setCount]);
+  return /* @__PURE__ */ import_react23.default.createElement(LoadingBar_default, { numerator: count, denominator: 100, maxLength: 100 });
+};
+render_default(/* @__PURE__ */ import_react23.default.createElement(CounterThing, null));
 /*! Bundled license information:
 
 react/cjs/react.production.min.js:
